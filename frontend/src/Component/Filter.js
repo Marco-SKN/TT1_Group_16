@@ -5,10 +5,10 @@ const Filter = ({ setFilter }) => {
     <>
       <select onChange={(e) => setFilter(e.target.value)}>
         <option value="none">Filter by category</option>
-        <option value="electronics">Electronics</option>
-        <option value="jewelery">Jewelery</option>
-        <option value="men's clothing">Men's clothing</option>
-        <option value="women's clothing">Women's clothing</option>
+        <option value="1">Electronics</option>
+        <option value="2">Jewelery</option>
+        <option value="3">Men's clothing</option>
+        <option value="4">Women's clothing</option>
       </select>
     </>
   );
