@@ -127,7 +127,7 @@ def checkout():
         new_qty = int(inventory_product.qty) - product_qty
         inventory_product.qty = new_qty
         db.session.delete(item)
-    order = Order.query.filter_by(order_id=order_id).first()
+    order = Order.query.filter_by(id=g.user.id).first()
     order.status = 1
     db.session.commit()
     return "Checked out", 200
