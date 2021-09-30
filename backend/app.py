@@ -74,12 +74,12 @@ def get_orderid(userid):
 @app.route('/api/products')
 def lst_products():
     products = Product.query.all()
-    return [p.as_dict() for p in products]
+    return jsonify([p.as_dict() for p in products])
 
 @app.route('/api/categories')
 def lst_categories():
     categories = Category.query.all()
-    return [c.as_dict() for c in categories]
+    return jsonify([c.as_dict() for c in categories])
 
 @app.route('/cart/retrieve', methods=['GET'])
 def get_orderitems():
