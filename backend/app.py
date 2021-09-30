@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import jwt
 
 app = Flask(__name__)
-dbURL = 'mysql://root@localhost/ecommerce'
+dbURL = 'mysql://tt:admin@localhost/ecommerce'
 app.config['SQLALCHEMY_DATABASE_URI'] = dbURL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
