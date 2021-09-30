@@ -1,8 +1,8 @@
 from models import *
-from flask import Flask, request, jsonify
+from flask import Flask, request, g,  jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, Column, Integer, String, Date, func
+from sqlalchemy import create_engine
 from datetime import datetime, timedelta
 import jwt
 
@@ -34,12 +34,11 @@ def checkjwt(token):
     try:
         decoded = jwt.decode(token, app.config.get('SECRET_KEY'), options={
                              "require": ["exp", "iat", "sub"]}, algorithms=["HS256"])
-        user = Customer.query.filter_by(username=decoded['sub']).first()
-        if user:
-            return True
+        id = decoded['sub']
+        g.user = Customer.query.filter_by(id=id).first()
+        return g.user
     except:
-        return False
-    return False
+        return None
 
 
 @app.route('/login', methods=['POST'])
@@ -47,17 +46,36 @@ def login():
     payload = request.get_json()
     username = payload['username']
     password = payload['password']
-    user = Customer.query.filter_by(
+    customer = Customer.query.filter_by(
         username=username, password=password).first()
-    if user:
+    if customer:
         payload = {
             'exp': datetime.utcnow() + timedelta(days=1),
             'iat': datetime.utcnow(),
-            'sub': username
+            'sub': customer.id
         }
         return jwt.encode(payload, app.config.get('SECRET_KEY'), algorithm='HS256')
     else:
         return "Unauthorised", 403
+
+
+def get_orderid(userid):
+    existing_cart = Order.query.filter_by(
+        customer_id=userid, status=0).first()
+    if existing_cart:
+        return existing_cart.id
+    else:
+        data = {"customer_id": userid, "status": 0}
+        new_cart = Order(**data)
+        db.session.add(new_cart)
+        db.session.commit()
+        return new_cart.id
+
+
+@app.route('/cart/retrieve', methods=['GET'])
+def get_orderitems():
+    orderid = get_orderid(g.user.id)
+    return jsonify({"order_items": [orderitem.json() for orderitem in Order_item.query.filter_by(order_id=orderid).all()]})
 
 
 if __name__ == '__main__':
