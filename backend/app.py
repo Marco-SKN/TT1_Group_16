@@ -74,8 +74,26 @@ def get_orderid(userid):
 
 @app.route('/cart/retrieve', methods=['GET'])
 def get_orderitems():
-    orderid = get_orderid(g.user.id)
-    return jsonify({"order_items": [orderitem.json() for orderitem in Order_item.query.filter_by(order_id=orderid).all()]})
+    order_id = get_orderid(g.user.id)
+    return jsonify({"order_items": [orderitem.json() for orderitem in Order_item.query.filter_by(order_id=order_id).all()]})
+
+
+@app.route('/cart/insert', methods=['POST'])
+def insert_orderitems():
+    order_id = get_orderid(g.user.id)
+    payload = request.get_json()
+    product_id = payload['product_id']
+    product_qty = int(payload['product_qty'])
+    existing_item = Order_item.query.filter_by(
+        order_id=order_id, product_id=product_id).first()
+    if existing_item:
+        product_qty += existing_item.product_qty
+    price = float(Product.query.filter_by(id=product_id).first().price)
+    data = {"product_id": product_id, "order_id": order_id,
+            "product_qty": product_qty, "total_price": product_qty*price}
+    db.session.merge(Order_item(**data))
+    db.session.commit()
+    return "Inserted", 200
 
 
 if __name__ == '__main__':
