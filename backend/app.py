@@ -14,12 +14,14 @@ app.config['SECRET_KEY'] = 'GjIhOUzLBVs5CJ09j04KWg'
 
 db = SQLAlchemy(app)
 engine = create_engine(dbURL)
+
+
 db.create_all()
 db.session.commit()
 
-api = Api(app)
-from api import myApi
-api.add_resource(myApi, '/api/<string:type>')
+# api = Api(app)
+# from api import myApi
+# api.add_resource(myApi, '/api/<string:type>')
 
 from login import *
 from model import *
