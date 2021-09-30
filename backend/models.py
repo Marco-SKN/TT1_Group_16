@@ -30,8 +30,6 @@ class Order(db.Model):
     status = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,
                            server_default=db.func.current_timestamp())
-    customer = db.Column(db.Integer, db.ForeignKey(
-        'customer.id', ondelete="CASCADE", onupdate="CASCADE"))
 
 
 class Order_item(db.Model):
@@ -42,6 +40,9 @@ class Order_item(db.Model):
         'order.id', ondelete="CASCADE", onupdate="CASCADE"), primary_key=True)
     product_qty = db.Column(db.Integer, server_default=None)
     total_price = db.Column(db.Float, server_default=None)
+
+    def json(self):
+        return {"product_id": self.product_id, "product_qty": self.product_qty, "total_price": self.total_price}
 
 
 class Product(db.Model):
