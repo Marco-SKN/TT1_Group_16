@@ -56,9 +56,9 @@ def checkjwt(token):
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    print(username, password)
+    payload = request.get_json()
+    username = payload['username']
+    password = payload['password']
     user = Customer.query.filter_by(
         username=username, password=password).first()
     if user:
