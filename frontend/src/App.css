@@ -21,6 +21,7 @@
 }
 
 .product {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -32,6 +33,7 @@
   transform: scale(0.6);
   height: 60%;
   padding: 10px;
+  cursor: pointer;
 }
 
 .product h3 {
@@ -42,15 +44,14 @@
 }
 
 .product p {
-  height: 20px;
   font-size: 0.8rem;
   white-space: nowrap;
-  text-overflow: ellipsis;
   overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .product span {
-  margin: 10px 0;
+  margin-top: 10px;
   font-size: 0.8rem;
 }
 
@@ -59,9 +60,21 @@
 }
 
 /* Search */
-.search {
-  margin: 50px 0;
+.search-container {
   width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-container select {
+  height: 50px;
+}
+
+.search {
+  height: 50px;
+  margin: 50px 0;
+  width: 100%;
   padding: 10px;
   font-size: 1rem;
 }
