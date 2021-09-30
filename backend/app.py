@@ -96,5 +96,17 @@ def insert_orderitems():
     return "Inserted", 200
 
 
+@app.route('/cart/delete', methods=['POST'])
+def delete_orderitems():
+    order_id = get_orderid(g.user.id)
+    payload = request.get_json()
+    product_id = payload['product_id']
+    existing_item = Order_item.query.filter_by(
+        order_id=order_id, product_id=product_id).first()
+    db.session.delete(existing_item)
+    db.session.commit()
+    return "Deleted", 200
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, threaded=True)
