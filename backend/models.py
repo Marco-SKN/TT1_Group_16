@@ -3,6 +3,7 @@ db = SQLAlchemy()
 
 
 class Category(db.Model):
+    __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -10,6 +11,7 @@ class Category(db.Model):
 
 
 class Customer(db.Model):
+    __tablename__ = 'customer'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
@@ -21,31 +23,34 @@ class Customer(db.Model):
 
 
 class Order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)  # auto incrreament
-    customer_id = db.Column(db.Integer, nullable=False)
+    __tablename__ = 'order'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey(
+        'customer.id', ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     status = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,
-                           server_default=db.func.current_timestamp(),
-                           server_onupdate=db.func.current_timestamp())
-    customer = db.Column(db.Integer, db.ForeignKey('customer.id'))
-    # CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                           server_default=db.func.current_timestamp())
+    customer = db.Column(db.Integer, db.ForeignKey(
+        'customer.id', ondelete="CASCADE", onupdate="CASCADE"))
 
 
-class Order_item(db.Model):  # notdone
-    product_id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, primary_key=True)
+class Order_item(db.Model):
+    __tablename__ = 'order_item'
+    product_id = db.Column(db.Integer, db.ForeignKey(
+        'product.id', ondelete="CASCADE", onupdate="CASCADE"), primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey(
+        'order.id', ondelete="CASCADE", onupdate="CASCADE"), primary_key=True)
     product_qty = db.Column(db.Integer, server_default=None)
     total_price = db.Column(db.Float, server_default=None)
-    #  CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    # CONSTRAINT `product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 
 
 class Product(db.Model):
+    __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.Integer, nullable=False)
-    category_id = db.Column(db.Integer, nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey(
+        'category.id', ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     image = db.Column(db.Integer, nullable=False)
     qty = db.Column(db.Integer, nullable=False)
-    # CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
