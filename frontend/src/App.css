@@ -4,6 +4,14 @@
   box-sizing: border-box;
 }
 
+/* Home */
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Product container */
 .product-container {
   display: grid;
@@ -33,6 +41,14 @@
   overflow-x: hidden;
 }
 
+.product p {
+  height: 20px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .product span {
   margin: 10px 0;
   font-size: 0.8rem;
@@ -40,4 +56,12 @@
 
 .product button {
   margin: 10px 0;
+}
+
+/* Search */
+.search {
+  margin: 50px 0;
+  width: 50%;
+  padding: 10px;
+  font-size: 1rem;
 }

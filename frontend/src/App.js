@@ -1,9 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
-import ProductTable from "./Component/ProductTable";
+import Home from "./Component/Home";
 
 function App() {
-  return <div className="App">{/* <ProductTable /> */}</div>;
+  return (
+    <div className="App">
+      <Home />
+    </div>
+  );
 }
 
 export default App;
