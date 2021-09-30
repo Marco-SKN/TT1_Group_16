@@ -18,6 +18,8 @@ db.create_all()
 db.session.commit()
 
 api = Api(app)
+from api import myApi
+api.add_resource(myApi, '/api/<string:type>')
 
 from login import *
 from model import *
