@@ -95,13 +95,13 @@ const AddressStep = () => {
       <h2>Shipping Address</h2>
       <Formik
         initialValues={{
-          fullName: "John Doe",
-          phoneNumber: "5552229876",
+          fullName: "Pei Yuan",
+          phoneNumber: "91234567",
           addressLine: "L1, Palm Residency",
-          city: "Kingston",
-          state: "New York",
-          code: "12401",
-          country: "United States"
+          city: "Singapore",
+          state: "Singapore",
+          code: "560343",
+          country: "Singapore"
         }}
         validationSchema={AddressSchema}
         onSubmit={async (values, { resetForm }) => {
@@ -294,20 +294,16 @@ const Checkout = () => {
 
           <ul className="total-breakup">
             <li>
-              <p>Subtotal</p>
-              <p>5000</p>
-            </li>
-            <li>
               <p>Tax</p>
-              <p>5000</p>
+              <p>0</p>
             </li>
             <li>
               <p>Shipping</p>
-              <p>5000</p>
+              <p>0</p>
             </li>
             <li>
               <h2>Total</h2>
-              <h2>5000</h2>
+              <h2></h2>
             </li>
           </ul>
         </div>
