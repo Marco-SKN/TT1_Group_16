@@ -108,5 +108,22 @@ def delete_orderitems():
     return "Deleted", 200
 
 
+@app.route('/cart/checkout', methods=['GET'])
+def checkout():
+    order_id = get_orderid(g.user.id)
+    order_items = Order_item.query.filter_by(order_id=order_id).all()
+    for item in order_items:
+        product_id = item.product_id
+        product_qty = int(item.product_qty)
+        inventory_product = Product.query.filter_by(id=product_id).first()
+        new_qty = int(inventory_product.qty) - product_qty
+        inventory_product.qty = new_qty
+        db.session.delete(item)
+    order = Order.query.filter_by(order_id=order_id).first()
+    order.status = 1
+    db.session.commit()
+    return "Checked out", 200
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, threaded=True)
