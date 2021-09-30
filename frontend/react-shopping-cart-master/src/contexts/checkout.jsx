@@ -1,74 +1,54 @@
-import React, { useReducer, createContext, useEffect } from "react";
-import useLocalStorage from "hooks/useLocalStorage";
-
-export const CHECKOUT_STEPS = {
-  AUTH: "auth",
-  SHIPPING: "shipping",
-  PAYMENT: "payment"
-};
+import React, { useReducer, createContext } from "react";
 
 const initialState = {
-  step: CHECKOUT_STEPS.AUTH,
-  shippingAddress: null
+  isSearchBarOpen: false,
+  searchKeyword: ""
 };
 
-export const CheckoutStateContext = createContext();
-export const CheckoutDispatchContext = createContext();
+export const CommonStateContext = createContext();
+export const CommonDispatchContext = createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "SET_CHECKOUT_STEP":
+    case "TOGGLE_SEARCH_BAR":
       return {
         ...state,
-        step: action.payload.step
+        isSearchBarOpen: !state.isSearchBarOpen
       };
-    case "SET_SHIPPING_ADDRESS":
+    case "SET_SEARCH_KEYWORD":
       return {
         ...state,
-        shippingAddress: action.payload.shippingAddress
+        searchKeyword: action.payload.searchKeyword
       };
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }
 };
 
-const CheckoutProvider = ({ children }) => {
-  const [checkoutState, setCheckoutState] = useLocalStorage("checkout", null);
-  const persistedCheckoutState = {
-    ...initialState,
-    shippingAddress: checkoutState || {}
-  };
-  const [state, dispatch] = useReducer(reducer, persistedCheckoutState);
-
-  useEffect(() => {
-    setCheckoutState(state.shippingAddress);
-  }, [state.shippingAddress]);
+const CommonProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <CheckoutDispatchContext.Provider value={dispatch}>
-      <CheckoutStateContext.Provider value={state}>
+    <CommonDispatchContext.Provider value={dispatch}>
+      <CommonStateContext.Provider value={state}>
         {children}
-      </CheckoutStateContext.Provider>
-    </CheckoutDispatchContext.Provider>
+      </CommonStateContext.Provider>
+    </CommonDispatchContext.Provider>
   );
 };
 
-export const setCheckoutStep = (dispatch, step) => {
+export const toggleSearchBar = (dispatch) => {
   return dispatch({
-    type: "SET_CHECKOUT_STEP",
+    type: "TOGGLE_SEARCH_BAR"
+  });
+};
+
+export const setSearchKeyword = (dispatch, searchKeyword) => {
+  return dispatch({
+    type: "SET_SEARCH_KEYWORD",
     payload: {
-      step
+      searchKeyword: searchKeyword
     }
   });
 };
 
-export const saveShippingAddress = (dispatch, shippingAddress) => {
-  dispatch({
-    type: "SET_SHIPPING_ADDRESS",
-    payload: {
-      shippingAddress
-    }
-  });
-  return setCheckoutStep(dispatch, CHECKOUT_STEPS.PAYMENT);
-};
-
-export default CheckoutProvider;
+export default CommonProvider;
