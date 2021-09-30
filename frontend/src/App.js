@@ -13,6 +13,9 @@ function App() {
           <Route path="/home" exact>
             <Home />
           </Route>
+          <Route path="/cart" exact>
+            {/* <Cart /> */}
+          </Route>
         </Switch>
       </BrowserRouter>
     </div>

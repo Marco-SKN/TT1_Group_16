@@ -1,6 +1,7 @@
-import React from "react";
+import { useState } from "react";
 
 const Product = ({ image, title, description, price }) => {
+  const [quantity, setQuantity] = useState("1");
   return (
     <div className="product">
       <img src={image} alt="table" />
@@ -8,6 +9,12 @@ const Product = ({ image, title, description, price }) => {
       <p>{description}</p>
       <span>${price}</span>
       <button>Add to cart</button>
+      <input
+        type="text"
+        className="qty"
+        value={quantity}
+        onChange={(e) => setQuantity(e.target.value)}
+      />
     </div>
   );
 };

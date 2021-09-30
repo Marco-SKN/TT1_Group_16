@@ -12,6 +12,16 @@
   align-items: center;
 }
 
+.home a {
+  color: black;
+  position: absolute;
+  top: 50px;
+  right: 100px;
+  text-decoration: none;
+  padding: 5px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
 /* Product container */
 .product-container {
   display: grid;
@@ -33,7 +43,6 @@
   transform: scale(0.6);
   height: 60%;
   padding: 10px;
-  cursor: pointer;
 }
 
 .product h3 {
@@ -56,7 +65,18 @@
 }
 
 .product button {
+  position: absolute;
+  bottom: 0%;
   margin: 10px 0;
+  padding: 0 10px;
+}
+
+.product .qty {
+  width: 20px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  text-align: center;
 }
 
 /* Search */
