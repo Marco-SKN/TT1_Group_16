@@ -1,3 +1,4 @@
+from models import *
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -13,19 +14,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 app.config['SECRET_KEY'] = 'GjIhOUzLBVs5CJ09j04KWg'
-
-
-class Customer(db.Model):
-    __tablename__ = 'customer'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String, nullable=False)
-    password = Column(String, nullable=False)
-    first_name = Column(String, nullable=False)
-    last_name = Column(String, nullable=False)
-    postal_code = Column(String, nullable=False)
-    gender = Column(String, nullable=False)
-    created_at = Column(Date, server_default=func.now())
-
 
 engine = create_engine(dbURL)
 db.create_all()
