@@ -71,12 +71,20 @@ def get_orderid(userid):
         db.session.commit()
         return new_cart.id
 
+@app.route('/api/products')
+def lst_products():
+    products = Product.query.all()
+    return [p.as_dict() for p in products]
+
+@app.route('/api/categories')
+def lst_categories():
+    categories = Category.query.all()
+    return [c.as_dict() for c in categories]
 
 @app.route('/cart/retrieve', methods=['GET'])
 def get_orderitems():
     order_id = get_orderid(g.user.id)
     return jsonify({"order_items": [orderitem.json() for orderitem in Order_item.query.filter_by(order_id=order_id).all()]})
-
 
 @app.route('/cart/insert', methods=['POST'])
 def insert_orderitems():

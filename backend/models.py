@@ -9,6 +9,8 @@ class Category(db.Model):
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.Text, nullable=False)
 
+    def as_dict(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
 class Customer(db.Model):
     __tablename__ = 'customer'
@@ -21,6 +23,8 @@ class Customer(db.Model):
     gender = db.Column(db.String, nullable=False)
     created_at = db.Column(db.Date, server_default=db.func.now())
 
+    def as_dict(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -31,6 +35,8 @@ class Order(db.Model):
     created_at = db.Column(db.DateTime, nullable=False,
                            server_default=db.func.current_timestamp())
 
+    def as_dict(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
 class Order_item(db.Model):
     __tablename__ = 'order_item'
@@ -44,6 +50,8 @@ class Order_item(db.Model):
     def json(self):
         return {"product_id": self.product_id, "product_qty": self.product_qty, "total_price": self.total_price}
 
+    def as_dict(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
 class Product(db.Model):
     __tablename__ = 'product'
@@ -55,3 +63,6 @@ class Product(db.Model):
         'category.id', ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     image = db.Column(db.Integer, nullable=False)
     qty = db.Column(db.Integer, nullable=False)
+
+    def as_dict(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
