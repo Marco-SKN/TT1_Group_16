@@ -1,10 +1,8 @@
-from .app import app
+from app import app
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime, timedelta
 import jwt
-
-
 
 @app.before_request
 def before_request():
@@ -14,7 +12,6 @@ def before_request():
             token = token.split()[1]
         if not checkjwt(token):
             return "Unauthorised", 403
-
 
 def checkjwt(token):
     try:
